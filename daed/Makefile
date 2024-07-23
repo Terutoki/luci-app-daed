@@ -7,7 +7,8 @@ include $(TOPDIR)/rules.mk
 PKG_NAME:=daed
 PKG_VERSION:=740cf42
 DAED_VERSION:=daed-740cf42
-CORE_VERSION:=core-4717fa2
+DAE_VERSION:=c3ccf17
+CORE_VERSION:=core-$(DAE_VERSION)
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
@@ -79,6 +80,7 @@ define Build/Prepare
 		$(TAR) --strip-components=1 -C $(PKG_BUILD_DIR)/../ -xzf $(DL_DIR)/$(PKG_NAME)-$(PKG_VERSION).tar.gz ; \
 		rm -rf $(PKG_BUILD_DIR) && git clone https://github.com/daeuniverse/dae-wing $(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)/wing ; \
 		rm -rf $(PKG_BUILD_DIR)/dae-core && git clone https://github.com/daeuniverse/dae $(PKG_BUILD_DIR)/dae-core ; \
+                git reset --hard $(DAE_VERSION); \
 		rm -rf $(PKG_BUILD_DIR)/dae-core/control/kern/headers && git clone https://github.com/daeuniverse/dae_bpf_headers $(PKG_BUILD_DIR)/dae-core/control/kern/headers ; \
 		pushd $(PKG_BUILD_DIR)/dae-core ; \
 		sed -i -e 's!default:"30s"!default:"600s"!g' -e 's!default:"HEAD"!default:"CONNECT"!g' -e 's!default:"dns.google.com:53,8.8.8.8,2001:4860:4860::8888"!default:"one.one.one.one:53,1.0.0.1,2606:4700:4700::1111"!g' -e 's!default:"http://cp.cloudflare.com,1.1.1.1,2606:4700:4700::1111"!default:"http://cp.cloudflare.com,1.0.0.1,2606:4700:4700::1111"!g' config/config.go ; \

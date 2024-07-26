@@ -7,7 +7,7 @@ include $(TOPDIR)/rules.mk
 PKG_NAME:=daed
 PKG_VERSION:=740cf42
 DAED_VERSION:=daed-740cf42
-DAE_VERSION:=be093c2
+DAE_VERSION:=a62042d
 CORE_VERSION:=dae-$(DAE_VERSION)
 PKG_RELEASE:=1
 
@@ -89,6 +89,7 @@ define Build/Prepare
 		popd ; \
 		pushd $(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)/wing ; \
 		wget -qO - https://github.com/daeuniverse/dae-wing/commit/ca0296173d36746335efed1923ff08c1300f7a61.patch | patch -p1 ; \
+                wget -qO - https://github.com/daeuniverse/dae/pull/580.patch | patch -p1 ; \
 		go get -u=patch ; \
 		go mod tidy ; \
 		popd ; \
